@@ -63,12 +63,25 @@ Converters can be added to the `ConfigBuilder` programmatically via `ConfigBuild
 where the type of the converters can be obtained via reflection. However, this is not possible for a lambda converter.
 In this case, use the method `ConfigBuilder#withConverter(Class<T> type, int priority, Converter<T> converter)`.
 
+[#array_converters]
 === Array Converters
 
 For the built-in converters and custom converters, the corresponding Array converters are provided by default.
-The delimiter for the config value is ",".
-The escape character is "\".
-e.g. With this config `myPets=dog,cat,dog\,cat`, the values as an array will be `{"dog", "cat", "dog,cat"}`.
+The delimiter for the config value is `,` and the escape character is `\`.
+In a plain value, a literal delimiter is escaped with a single backslash: `pets=dog,cat,dog\,cat`, the values as
+an array will be `{"dog", "cat", "dog,cat"}`.
+
+Property-expression resolution (see <<property-expressions>>) is applied _before_ the value is split. When a value also
+contains an expression it is processed by two stages, resolution then splitting, so a literal delimiter must be escaped
+for each stage, using a double backslash. For example:
+
+[source,properties]
+----
+pets=cat,dog,${mouse},sea\\,turtle
+----
+
+the resulting array is `{"cat", "dog", "mouse", "sea,turtle"}`. A single backslash here (`sea\,turtle`) would be
+consumed by expression resolution, leaving `sea` and `turtle` as separate elements.
 
 ==== Programmatic lookup
 
