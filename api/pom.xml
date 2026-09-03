@@ -53,6 +53,44 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <!--
+                        The module descriptor is compiled in a dedicated execution, patched onto the
+                        already compiled classes. This keeps the main compilation unchanged (class path)
+                        and avoids requiring the OSGi/bnd annotation jars referenced by package-info.java,
+                        which are compile-time only and ship no module descriptor.
+                    -->
+                    <execution>
+                        <id>compile-module-info</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <!-- module-info requires at least Java 9; the other classes stay on the project baseline. -->
+                            <release>9</release>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${project.basedir}/src/main/module-info</compileSourceRoot>
+                            </compileSourceRoots>
+                            <compilerArgs>
+                                <arg>--patch-module</arg>
+                                <arg>org.eclipse.microprofile.config=${project.build.outputDirectory}</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!-- The descriptor lives outside the javadoc source roots: keep the class path mode. -->
+                    <legacyMode>true</legacyMode>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
