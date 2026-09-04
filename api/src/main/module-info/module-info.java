@@ -15,19 +15,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Contributors:
- *   2011-12-28 - Mark Struberg & Gerhard Petracek
- *      Initially authored in Apache DeltaSpike as ConfigResolver fb0131106481f0b9a8fd
- *   2015-04-30 - Ron Smeral
- *      Typesafe Config authored in Apache DeltaSpike 25b2b8cc0c955a28743f
- *   2016-07-14 - Mark Struberg
- *      Extracted the Config part out of Apache DeltaSpike and proposed as Microprofile-Config
- *   2016-11-14 - Emily Jiang / IBM Corp
- *      Experiments with separate methods per type, JavaDoc, method renaming
- *   2018-04-04 - Mark Struberg, Manfred Huber, Alex Falb, Gerhard Petracek
- *      ConfigSnapshot added. Initially authored in Apache DeltaSpike fdd1e3dcd9a12ceed831dd
- *      Additional reviews and feedback by Tomas Langer.
  */
 
 /**

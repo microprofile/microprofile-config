@@ -65,7 +65,7 @@
                     -->
                     <execution>
                         <id>compile-module-info</id>
-                        <phase>compile</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
