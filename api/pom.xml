@@ -91,9 +91,35 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- The descriptor lives outside the javadoc source roots: keep the class path mode. -->
+                    <!--
+                        Keep javadoc in class path mode: a module-info.java at the root of a source path would switch
+                        it to module mode, so only the regular sources are documented.
+                    -->
                     <legacyMode>true</legacyMode>
+                    <sourcepath>${project.build.sourceDirectory}</sourcepath>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <!--
+                        Register the descriptor source root only once compilation is over, so that the
+                        sources jar ships module-info.java while the default compilation keeps ignoring it.
+                    -->
+                    <execution>
+                        <id>add-module-info-source</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.basedir}/src/main/module-info</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

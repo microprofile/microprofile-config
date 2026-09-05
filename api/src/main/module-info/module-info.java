@@ -19,17 +19,10 @@
 
 /**
  * MicroProfile Config API.
- *
- * <p>
- * {@code @ConfigProperty} and {@code @ConfigProperties} are meta-annotated with
- * {@code jakarta.inject.Qualifier} / {@code jakarta.enterprise.util.Nonbinding} and
- * {@code ConfigProperties.Literal} extends {@code AnnotationLiteral}, so the Inject and CDI modules
- * are required transitively: consumers must read them for the API to be fully resolvable on the
- * module path.
  */
 module org.eclipse.microprofile.config {
-    requires transitive jakarta.cdi;
-    requires transitive jakarta.inject;
+    requires static transitive jakarta.cdi;
+    requires static transitive jakarta.inject;
 
     exports org.eclipse.microprofile.config;
     exports org.eclipse.microprofile.config.inject;
