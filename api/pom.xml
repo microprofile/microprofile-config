@@ -72,6 +72,10 @@
                         <configuration>
                             <!-- module-info requires at least Java 9; the other classes stay on the project baseline. -->
                             <release>9</release>
+                            <!--
+                                Restricts this execution to the descriptor only (maven-compiler-plugin 3.x honours
+                                this parameter): src/main/java is not recompiled and keeps its Java 8 bytecode.
+                            -->
                             <compileSourceRoots>
                                 <compileSourceRoot>${project.basedir}/src/main/module-info</compileSourceRoot>
                             </compileSourceRoots>
