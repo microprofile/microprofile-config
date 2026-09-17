@@ -67,20 +67,37 @@ including `getValue`, `getValues`, `getConfigValue`, `getValues`, `getOptionalVa
 and `getConfigProperties`. The methods `getValue` and `getProperties` in `ConfigSource`, may support property
 expressions as well, but it is not required by the specification.
 
+Expression resolution is applied to a value _before_ it is split into elements by an array or collection converter.
+Consequently, an expression that resolves to a value containing delimiters expands into multiple elements, and a
+literal delimiter that must be preserved is escaped as described in <<converters>>.
+
 Property expressions must also be applied to configuration properties injected via CDI. A default value
 defined via `org.eclipse.microprofile.config.inject.ConfigProperty#defaultValue` is not eligible to be expanded since
 multiple candidates may be available.
 
-If a configuration property value or default value requires the raw value without expansion, the expression may be
-escaped with a backslash ("\", double "\\" for property file-based sources). For instance:
+=== Escaping
+
+The backslash (`\`) is the escape character within a configuration value, and `$` has no special meaning on its own.
+To keep an expression from being resolved, escape it: `\${...}` resolves to the literal text `${...}`. A literal
+backslash is written `\\`.
 
 [source,properties]
 ----
-server.url=\\${server.host}
+server.url=\${server.host}
 server.host=localhost
 ----
 
 The value of `server.url` is `${server.host}`.
+
+Escaping composes across processing stages: a value is first resolved for expressions and, when read as a collection
+or array, the resolved value is then split into elements (see <<converters#array_converters>>). Each stage that
+interprets the value consumes one level of escaping, so a character that must survive more than one stage must be
+escaped once per stage.
+
+NOTE: A ConfigSource format may apply its own escaping when it is parsed. In a Java `.properties` file the backslash is
+itself the file-format escape character, so the value above is written `server.url=\\${server.host}` in the file; after
+the file is parsed the configuration value is `\${server.host}`. The escaping described here applies to the
+configuration _value_, after any source-specific unescaping.
 
 === Backwards Compatibility
 
