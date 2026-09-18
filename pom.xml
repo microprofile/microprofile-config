@@ -34,7 +34,6 @@
         <inceptionYear>2016</inceptionYear>
         <version.microprofile.tck.bom>2.13</version.microprofile.tck.bom>
         <staging.prefix>microprofile-config</staging.prefix>
-
     </properties>
 
     <issueManagement>
