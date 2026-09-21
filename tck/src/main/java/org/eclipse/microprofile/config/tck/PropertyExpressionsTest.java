@@ -205,7 +205,7 @@ public class PropertyExpressionsTest extends Arquillian {
 
     @Test
     void arrayEscapes() {
-        Config config = buildConfig("list", "cat,dog,${mouse},sea\\,turtle", "mouse", "mouse");
+        Config config = buildConfig("list", "cat,dog,${mouse},sea\\\\,turtle", "mouse", "mouse");
 
         final List<String> list = config.getValues("list", String.class);
         assertEquals(list.size(), 4);
