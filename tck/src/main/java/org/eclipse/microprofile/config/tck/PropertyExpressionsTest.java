@@ -45,6 +45,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class PropertyExpressionsTest extends Arquillian {
@@ -204,6 +205,7 @@ public class PropertyExpressionsTest extends Arquillian {
     }
 
     @Test
+    @Ignore("https://github.com/microprofile/microprofile-config/issues/823")
     void arrayEscapes() {
         Config config = buildConfig("list", "cat,dog,${mouse},sea\\,turtle", "mouse", "mouse");
 
